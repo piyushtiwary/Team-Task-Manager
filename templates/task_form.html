@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{% if task %}Edit Task{% else %}Create Task{% endif %} - ProjectManager{% endblock %}
+
+{% block content %}
+<div class="form-center">
+    <h2>{% if task %}Edit Task{% else %}Create Task{% endif %}</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="title">Task Title *</label>
+            <input type="text" id="title" name="title" required placeholder="Enter task title" value="{{ task.title|default:'' }}">
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Enter task description">{{ task.description|default:'' }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="status">Status *</label>
+            <select id="status" name="status" required>
+                <option value="">-- Select Status --</option>
+                <option value="todo" {% if task.status == "todo" %}selected{% endif %}>To Do</option>
+                <option value="in_progress" {% if task.status == "in_progress" %}selected{% endif %}>In Progress</option>
+                <option value="done" {% if task.status == "done" %}selected{% endif %}>Done</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="assigned_to">Assign To (email)</label>
+            <input type="email" id="assigned_to" name="assigned_to_email" placeholder="Enter assignee email" value="{{ task.assigned_to_email|default:'' }}">
+            <small style="color: #999; display: block; margin-top: 5px;">Leave blank to unassign</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="due_date">Due Date</label>
+            <input type="datetime-local" id="due_date" name="due_date" value="{% if task.due_date %}{{ task.due_date|date:'Y-m-dTH:i' }}{% endif %}">
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" style="flex: 1;">{% if task %}Update{% else %}Create{% endif %} Task</button>
+            <a href="{% if project %}{% url 'project-detail' project.id %}{% else %}{% url 'projects' %}{% endif %}" class="btn btn-secondary" style="flex: 1; text-align: center;">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

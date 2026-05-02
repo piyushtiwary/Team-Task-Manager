@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - ProjectManager{% endblock %}
+
+{% block content %}
+<h1>Dashboard</h1>
+
+<!-- Summary Cards -->
+<div class="summary-grid">
+    <div class="summary-card">
+        <div class="summary-value">{{ total_tasks }}</div>
+        <div class="summary-label">Total Tasks</div>
+    </div>
+    
+    <div class="summary-card completed">
+        <div class="summary-value">{{ completed_tasks }}</div>
+        <div class="summary-label">Completed Tasks</div>
+    </div>
+    
+    <div class="summary-card pending">
+        <div class="summary-value">{{ pending_tasks }}</div>
+        <div class="summary-label">Pending Tasks</div>
+    </div>
+    
+    <div class="summary-card overdue">
+        <div class="summary-value">{{ overdue_tasks }}</div>
+        <div class="summary-label">Overdue Tasks</div>
+    </div>
+</div>
+
+<!-- Projects Section -->
+<h2 style="margin: 30px 0 20px 0;">Your Projects</h2>
+
+{% if projects %}
+    <div class="grid-3">
+        {% for project in projects %}
+        <div class="project-card">
+            <div class="project-name">{{ project.name }}</div>
+            <div class="project-description">{{ project.description|truncatewords:20 }}</div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ project.progress }}%"></div>
+            </div>
+            <div class="progress-text">{{ project.progress }}% Complete</div>
+            
+            <div class="project-actions">
+                <a href="{% url 'project-detail' project.id %}" class="btn">Open Project</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card">
+        <p style="text-align: center; color: #999;">No projects yet. <a href="{% url 'projects' %}">Create one</a></p>
+    </div>
+{% endif %}
+
+<div style="margin-top: 30px; text-align: center;">
+    <a href="{% url 'projects' %}" class="btn">View All Projects</a>
+</div>
+{% endblock %}

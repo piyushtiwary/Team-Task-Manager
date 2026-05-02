@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form-center">
+    <h1>Add Team Member</h1>
+    <p style="color: #666; margin-bottom: 20px;">Project: <strong>{{ project.name }}</strong></p>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" class="form-group">
+        {% csrf_token %}
+        
+        <div>
+            <label for="email">Team Member Email *</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                required
+                placeholder="user@example.com"
+            >
+            <small style="color: #666;">Enter the email of the user you want to add</small>
+        </div>
+
+        <div>
+            <label for="role">Role *</label>
+            <select id="role" name="role" required>
+                <option value="">-- Select Role --</option>
+                <option value="admin">Admin (Can manage tasks and members)</option>
+                <option value="member">Member (Can view tasks and update their own)</option>
+            </select>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn">Add Member</button>
+            <a href="{% url 'project-detail' project.id %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: Arial, sans-serif;
+    }
+    
+    small {
+        display: block;
+        margin-top: 5px;
+    }
+    
+    .alert {
+        padding: 12px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+    }
+    
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+    
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+    
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        display: inline-block;
+        border: none;
+        cursor: pointer;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+</style>
+{% endblock %}
