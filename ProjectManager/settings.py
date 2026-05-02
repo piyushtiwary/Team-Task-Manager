@@ -161,3 +161,11 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
     "ALGORITHM": "HS256",
 }
+
+# CSRF Trusted Origins (for production)
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.up.railway.app",
+]
+
+# Security settings for production
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
