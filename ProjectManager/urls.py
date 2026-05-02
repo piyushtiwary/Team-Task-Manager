@@ -45,7 +45,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # Template routes - Authentication
     path("signup/", SignupTemplateView.as_view(), name="signup"),
-    path("login/", LoginTemplateView.as_view(), name="login"),
+    path("", LoginTemplateView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     # Template routes - Dashboard
     path("dashboard/", DashboardTemplateView.as_view(), name="dashboard"),
